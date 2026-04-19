@@ -1,0 +1,31 @@
+// ESP32 Arduino sketch snippet
+#include <WiFi.h>
+#include <WebServer.h>
+#include <ArduinoJson.h>
+
+WebServer server(80);
+
+void setup() {
+  WiFi.begin("SSID", "PASSWORD");
+  while (WiFi.status() != WL_CONNECTED) delay(1000);
+
+  server.on("/data.json", []() {
+    StaticJsonDocument<256> doc;
+    doc["temperature"] = 26.8;
+    doc["humidity"] = 35.2;
+    doc["co2"] = 420;
+    doc["aqi"] = 167;
+    doc["timestamp"] = "2026-04-19T20:40:00Z";
+    String json;
+    serializeJson(doc, json);
+    server.send(200, "application/json", json);
+  });
+
+  server.on("/control", HTTP_POST, []() {
+    String body = server.arg("plain");
+    Serial.println("Received control: " + body);
+    server.send(200, "text/plain", "OK");
+  });
+
+  server.begin();
+}
