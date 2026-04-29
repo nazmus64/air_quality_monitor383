@@ -1,20 +1,17 @@
-// app/api/control/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+// app/api/sensors/route.ts
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function GET() {
   try {
-    const body = await req.json();
     const ESP32_IP = "http://192.168.X.X"; // ← update with real IP later
 
-    const response = await fetch(`${ESP32_IP}/control`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+    const response = await fetch(`${ESP32_IP}/data.json`, {
+      cache: 'no-store',
     });
 
-    const text = await response.text();
-    return NextResponse.json({ success: true, message: text });
+    const data = await response.json();
+    return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ success: false, message: 'ESP32 unreachable' }, { status: 500 });
+    return NextResponse.json({ error: 'ESP32 unreachable' }, { status: 500 });
   }
 }
