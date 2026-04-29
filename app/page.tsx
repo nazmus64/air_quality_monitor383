@@ -36,9 +36,11 @@ export default function Dashboard() {
         <>
           <ControlPanel />
           <ChartCard data={data} label="Temperature (°C)" field="temperature" />
-          <ChartCard data={data} label="Humidity (%)" field="humidity" />
-          <ChartCard data={data} label="CO₂ (ppm)" field="co2" />
-          <ChartCard data={data} label="AQI" field="aqi" />
+          <ChartCard data={data} label="Humidity (%)"     field="humidity"    />
+          <ChartCard data={data} label="AQI"              field="aqi"         />
+          <ChartCard data={data} label="PM1.0 (µg/m³)"   field="pm1_0"       />
+          <ChartCard data={data} label="PM2.5 (µg/m³)"   field="pm25"        />
+          <ChartCard data={data} label="PM10 (µg/m³)"    field="pm10"        />
         </>
       )}
     </main>
